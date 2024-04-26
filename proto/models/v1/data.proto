@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package models.v1;
+
+option go_package = "pkg/models;v1";
+
+import "google/protobuf/timestamp.proto";
+
+message Package {
+  int32 version = 1;
+  string id = 2;
+  google.protobuf.Timestamp created_at = 3;
+}
