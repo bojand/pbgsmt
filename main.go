@@ -10,6 +10,8 @@ import (
 	"github.com/twmb/franz-go/pkg/kadm"
 	"github.com/twmb/franz-go/pkg/kgo"
 	"github.com/twmb/franz-go/pkg/kversion"
+	spb "google.golang.org/genproto/googleapis/rpc/status"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -57,6 +59,7 @@ func ProduceRecords(kafkaClient *kgo.Client, topic string) {
 		Version:   1,
 		Id:        id,
 		CreatedAt: timestamppb.New(time.Now()),
+		Status:    &spb.Status{Code: int32(codes.Aborted), Message: "aborted"},
 	}
 
 	pbData, err := proto.Marshal(&msg)
