@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"math/rand"
 	"time"
 
 	models "github.com/bojand/pbgsmt/gen/pkg/models"
@@ -55,11 +56,13 @@ func ProduceRecords(kafkaClient *kgo.Client, topic string) {
 		log.Fatal(err)
 	}
 
+	code := codes.Code(uint(rand.Intn(17)))
+
 	msg := models.Package{
 		Version:   1,
 		Id:        id,
 		CreatedAt: timestamppb.New(time.Now()),
-		Status:    &spb.Status{Code: int32(codes.Aborted), Message: "aborted"},
+		Status:    &spb.Status{Code: int32(code), Message: code.String()},
 	}
 
 	pbData, err := proto.Marshal(&msg)
